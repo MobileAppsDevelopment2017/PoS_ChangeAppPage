@@ -1,39 +1,15 @@
-function navHashHistory(saveHash){
-//Hash Hijack Method for SPA - a custom function written by Andrew Bingham 17/01/17 for SPA webapp development
 
-//for each new SPA page, add the hash to the URL bar
-//As we are using browser history method, there is no need to change it if the browser has aleady completed this as default--so lets
-//evaluate what is there first.
-
-    var hashValue = location.hash;
-    hashValue = hashValue.replace(/^#/, '');
-    if(hashValue!=saveHash){
-    window.history.pushState("tmp", "POS Hash Test", "#"+saveHash);
-    //alert("hash value DIFF");
-  }else{
-
-      //alert("hash value SAME");
-  }
-
-
-
-
-
-}
-
+//----------changeAppPage controls routing of the application-------//
 
 
 //Event Listener for back button press
 $('.navBack').click(function() {
-
 history.back();
-
 //Only grab the current location.hash on change of url -- use onhashchange  (onpopstate not supported cross browser)
 window.onhashchange = function() {
   var hashValue = location.hash;
   //we don't pass the # char - just return the value after the #
   hashValue = hashValue.replace(/^#/, '');
-  //alert("change of hash detected");
   changeAppPage(hashValue);
   };
 
@@ -51,9 +27,7 @@ $(".itemidstore").attr("_itemidstore", itemid);
 
 
 $('._viewAllRecipes').click(function() {
-
-changeAppPage("_viewAllRecipes", 'false');
-
+changeAppPage("_viewAllRecipes");
 });
 
 //get the full recipe -- will need to inject an id into a root attribute
@@ -63,7 +37,7 @@ var itemid = $(this).attr("_itemid");
 
 registerItemID(itemid);
 
-changeAppPage("_viewFullRecipe", 'false');
+changeAppPage("_viewFullRecipe");
 
 });
 
@@ -80,11 +54,20 @@ $(document).on('click', '.returnToStart', {}, function(e) {
 });
 
 $(document).on('click', '.createRecipeBtn', {}, function(e) {
-    changeAppPage('_createRecipe', null);
+    changeAppPage('_createRecipe');
 });
 
 
+function navHashHistory(saveHash){
+//Hash Hijack Method for SPA
+//for each new SPA partial view, add the hash to the URL bar
+    var hashValue = location.hash;
+    hashValue = hashValue.replace(/^#/, '');
+    if(hashValue!=saveHash){
+    window.history.pushState("", "", "#"+saveHash);
+  }
 
+}//end navHashHistory
 
 
 //declare current step outside of function so that is global and accessible to other functions
@@ -120,11 +103,6 @@ function changeAppPage(screen) {
           navHashHistory(screen);
 
           break;
-
-
-
-
-
 
 
         case '_dashboard':
