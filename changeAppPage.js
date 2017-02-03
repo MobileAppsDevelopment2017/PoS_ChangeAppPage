@@ -1,7 +1,6 @@
 
 //----------changeAppPage controls routing of the application-------//
 
-
 //Event Listener for back button press
 $('.navBack').click(function() {
 history.back();
@@ -65,6 +64,9 @@ function navHashHistory(saveHash){
     hashValue = hashValue.replace(/^#/, '');
     if(hashValue!=saveHash){
     window.history.pushState("", "", "#"+saveHash);
+  }else{
+    //Must be first initialise
+    window.history.pushState("", "", "#"+saveHash);
   }
 
 }//end navHashHistory
@@ -91,13 +93,15 @@ function changeAppPage(screen) {
 
 
       case '_register':
-          swiper.destroy(true, true);
+
+        //  swiper.destroy(true, true);
           $(".navBack").css("visibility", "hidden");
 
           $(".swiper-pagination").css("visibility", "visible");
 
           $(".contentRoot").empty();
 
+          
           getScreenContent(screen);
           currentStep = screen;
           navHashHistory(screen);
